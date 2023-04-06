@@ -16,7 +16,7 @@ export default function Footer() {
 
 			<a href="#" aria-label="back to top">
 				<ArrowUpCircleIcon
-					className="h-10 w-10 text-gray-300"
+					className="h-8 w-8 text-gray-400 dark:text-gray-300"
 					aria-hidden="true"
 				/>
 			</a>

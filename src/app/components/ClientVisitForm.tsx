@@ -9,13 +9,20 @@ export default function ClientVisitForm() {
 
 	return (
 		<form>
-			<div className="space-y-12">
-				<div className="border-b border-gray-900/10 pb-12">
+			<div className="space-y-12 border px-10">
+				<div className="border-b border-gray-900/10 dark:border-gray-50/10 pb-12">
+					<h2 className=" mt-10 text-base font-semibold leading-7 text-gray-900 dark:text-gray-50">
+						Informations initiales
+					</h2>
+					<p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-500">
+						Auto remplissage des champs si le client est déjà existant en base
+						de données.
+					</p>
 					<div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-						<div className="sm:col-span-3">
+						<div className="sm:col-span-2">
 							<label
 								htmlFor="visit-date"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								Date de la visite
 							</label>
@@ -32,9 +39,50 @@ export default function ClientVisitForm() {
 						</div>
 
 						<div className="sm:col-span-4">
+							<fieldset>
+								<legend className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50">
+									Nouveau client ?
+								</legend>
+								
+								<div className="mt-6 space-y-6">
+									<div className="flex items-center gap-x-3">
+										<input
+											id="yes"
+											name="isNewClient"
+											type="radio"
+											className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                            checked
+										/>
+										<label
+											htmlFor="yes"
+											className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
+										>
+											Oui
+										</label>
+									</div>
+									
+									<div className="flex items-center gap-x-3">
+										<input
+											id="no"
+											name="isNewClient"
+											type="radio"
+											className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+										/>
+										<label
+											htmlFor="no"
+											className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
+										>
+											Non
+										</label>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+
+						<div className="sm:col-span-4">
 							<label
 								htmlFor="username"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								Username
 							</label>
@@ -50,6 +98,7 @@ export default function ClientVisitForm() {
 										autoComplete="username"
 										className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
 										placeholder="janesmith"
+										required
 									/>
 								</div>
 							</div>
@@ -58,7 +107,7 @@ export default function ClientVisitForm() {
 						<div className="col-span-full">
 							<label
 								htmlFor="about"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								About
 							</label>
@@ -71,18 +120,18 @@ export default function ClientVisitForm() {
 									defaultValue={""}
 								/>
 							</div>
-							<p className="mt-3 text-sm leading-6 text-gray-600">
+							<p className="mt-3 text-sm leading-6 text-gray-600 dark:text-gray-500">
 								Write a few sentences about yourself.
 							</p>
 						</div>
 					</div>
 				</div>
 
-				<div className="border-b border-gray-900/10 pb-12">
-					<h2 className="text-base font-semibold leading-7 text-gray-900">
+				<div className="border-b border-gray-900/10 dark:border-gray-50/10 pb-12">
+					<h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-gray-50">
 						Personal Information
 					</h2>
-					<p className="mt-1 text-sm leading-6 text-gray-600">
+					<p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-500">
 						Use a permanent address where you can receive mail.
 					</p>
 
@@ -90,7 +139,7 @@ export default function ClientVisitForm() {
 						<div className="sm:col-span-3">
 							<label
 								htmlFor="first-name"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								First name
 							</label>
@@ -108,7 +157,7 @@ export default function ClientVisitForm() {
 						<div className="sm:col-span-3">
 							<label
 								htmlFor="last-name"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								Last name
 							</label>
@@ -126,7 +175,7 @@ export default function ClientVisitForm() {
 						<div className="sm:col-span-4">
 							<label
 								htmlFor="email"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								Email address
 							</label>
@@ -144,7 +193,7 @@ export default function ClientVisitForm() {
 						<div className="sm:col-span-3">
 							<label
 								htmlFor="country"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								Country
 							</label>
@@ -165,7 +214,7 @@ export default function ClientVisitForm() {
 						<div className="col-span-full">
 							<label
 								htmlFor="street-address"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								Street address
 							</label>
@@ -183,7 +232,7 @@ export default function ClientVisitForm() {
 						<div className="sm:col-span-2 sm:col-start-1">
 							<label
 								htmlFor="city"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								City
 							</label>
@@ -201,7 +250,7 @@ export default function ClientVisitForm() {
 						<div className="sm:col-span-2">
 							<label
 								htmlFor="region"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								State / Province
 							</label>
@@ -219,7 +268,7 @@ export default function ClientVisitForm() {
 						<div className="sm:col-span-2">
 							<label
 								htmlFor="postal-code"
-								className="block text-sm font-medium leading-6 text-gray-900"
+								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
 								ZIP / Postal code
 							</label>
@@ -236,18 +285,18 @@ export default function ClientVisitForm() {
 					</div>
 				</div>
 
-				<div className="border-b border-gray-900/10 pb-12">
+				<div className="border-b border-gray-900/10 dark:border-gray-50/10 pb-12">
 					<h2 className="text-base font-semibold leading-7 text-gray-900">
 						Notifications
 					</h2>
-					<p className="mt-1 text-sm leading-6 text-gray-600">
+					<p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-500">
 						We'll always let you know about important changes, but you pick what
 						else you want to hear about.
 					</p>
 
 					<div className="mt-10 space-y-10">
 						<fieldset>
-							<legend className="text-sm font-semibold leading-6 text-gray-900">
+							<legend className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50">
 								By Email
 							</legend>
 							<div className="mt-6 space-y-6">
@@ -263,7 +312,7 @@ export default function ClientVisitForm() {
 									<div className="text-sm leading-6">
 										<label
 											htmlFor="comments"
-											className="font-medium text-gray-900"
+											className="font-medium text-gray-900 dark:text-gray-50"
 										>
 											Comments
 										</label>
@@ -284,7 +333,7 @@ export default function ClientVisitForm() {
 									<div className="text-sm leading-6">
 										<label
 											htmlFor="candidates"
-											className="font-medium text-gray-900"
+											className="font-medium text-gray-900 dark:text-gray-50"
 										>
 											Candidates
 										</label>
@@ -305,7 +354,7 @@ export default function ClientVisitForm() {
 									<div className="text-sm leading-6">
 										<label
 											htmlFor="offers"
-											className="font-medium text-gray-900"
+											className="font-medium text-gray-900 dark:text-gray-50"
 										>
 											Offers
 										</label>
@@ -316,58 +365,6 @@ export default function ClientVisitForm() {
 								</div>
 							</div>
 						</fieldset>
-						<fieldset>
-							<legend className="text-sm font-semibold leading-6 text-gray-900">
-								Push Notifications
-							</legend>
-							<p className="mt-1 text-sm leading-6 text-gray-600">
-								These are delivered via SMS to your mobile phone.
-							</p>
-							<div className="mt-6 space-y-6">
-								<div className="flex items-center gap-x-3">
-									<input
-										id="push-everything"
-										name="push-notifications"
-										type="radio"
-										className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-									/>
-									<label
-										htmlFor="push-everything"
-										className="block text-sm font-medium leading-6 text-gray-900"
-									>
-										Everything
-									</label>
-								</div>
-								<div className="flex items-center gap-x-3">
-									<input
-										id="push-email"
-										name="push-notifications"
-										type="radio"
-										className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-									/>
-									<label
-										htmlFor="push-email"
-										className="block text-sm font-medium leading-6 text-gray-900"
-									>
-										Same as email
-									</label>
-								</div>
-								<div className="flex items-center gap-x-3">
-									<input
-										id="push-nothing"
-										name="push-notifications"
-										type="radio"
-										className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-									/>
-									<label
-										htmlFor="push-nothing"
-										className="block text-sm font-medium leading-6 text-gray-900"
-									>
-										No push notifications
-									</label>
-								</div>
-							</div>
-						</fieldset>
 					</div>
 				</div>
 			</div>
@@ -375,15 +372,15 @@ export default function ClientVisitForm() {
 			<div className="mt-6 flex items-center justify-end gap-x-6">
 				<button
 					type="button"
-					className="text-sm font-semibold leading-6 text-gray-900"
+					className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50"
 				>
-					Cancel
+					Annuler
 				</button>
 				<button
 					type="submit"
 					className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 				>
-					Save
+					Enregistrer
 				</button>
 			</div>
 		</form>
