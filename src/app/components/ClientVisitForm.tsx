@@ -1,6 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import ClientSelect from './ClientSelect';
+
+const clients: Client[] = [
+	{ id: 1, name: "Client 1", type: "Pro", postalCode: "97400" },
+	{ id: 2, name: "Client 2", type: "Perso", postalCode: "97410" },
+	{ id: 3, name: "Client 3", type: "Pro", postalCode: "97420" },
+];
 
 export default function ClientVisitForm() {
 	const [errorDuration, setErrorDuration] = useState<string>("");
@@ -10,16 +17,16 @@ export default function ClientVisitForm() {
 	const [selectedDate, setSelectedDate] = useState(
 		currentDate.substring(0, 10)
 	);
-	const [visitDuration, setVisitDuration] = useState<number | ''>('');
+	const [visitDuration, setVisitDuration] = useState<number | "">("");
 	const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = parseFloat(event.target.value);
 
 		if (inputValue > 0 && inputValue <= 24 && !isNaN(Number(inputValue))) {
 			setVisitDuration(inputValue);
-			setErrorDuration('');
+			setErrorDuration("");
 		} else {
 			setErrorDuration("Veuillez entrer une valeur comprise entre 1 et 24.");
-			setVisitDuration('');
+			setVisitDuration("");
 		}
 	};
 
@@ -59,6 +66,26 @@ export default function ClientVisitForm() {
 		} else {
 			setErrorName("");
 		}
+	};
+
+	const [isNewClient, setIsNewClient] = useState(true);
+	const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+	const [type, setType] = useState("");
+
+	const handleClientSelect = (client: Client) => {
+		setSelectedClient(client);
+		setIsNewClient(false);
+		setName(client.name);
+		setType(client.type);
+		setPostalCode(client.postalCode);
+	};
+
+	const handleNewClient = () => {
+		setSelectedClient(null);
+		setIsNewClient(true);
+		setName("");
+		setType("");
+		setPostalCode("");
 	};
 
 	return (
@@ -105,7 +132,8 @@ export default function ClientVisitForm() {
 											name="isNewClient"
 											type="radio"
 											className="h-4 w-4 border-gray-300 text-teal-600 focus:ring-teal-600"
-											defaultChecked
+											checked={isNewClient}
+											onChange={() => handleNewClient()}
 										/>
 										<label
 											htmlFor="yes"
@@ -121,6 +149,8 @@ export default function ClientVisitForm() {
 											name="isNewClient"
 											type="radio"
 											className="h-4 w-4 border-gray-300 text-teal-600 focus:ring-teal-600"
+											checked={!isNewClient}
+											onChange={() => setIsNewClient(false)}
 										/>
 										<label
 											htmlFor="no"
@@ -129,33 +159,16 @@ export default function ClientVisitForm() {
 											Non
 										</label>
 									</div>
+									{!isNewClient && (
+										<div>
+											<ClientSelect
+												clients={clients}
+												onClientSelect={handleClientSelect}
+											/>
+										</div>
+									)}
 								</div>
 							</fieldset>
-						</div>
-
-						<div className="sm:col-span-4">
-							<label
-								htmlFor="username"
-								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
-							>
-								Username
-							</label>
-							<div className="mt-2">
-								<div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-teal-600 sm:max-w-md">
-									<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
-										workcation.com/
-									</span>
-									<input
-										type="text"
-										name="username"
-										id="username"
-										autoComplete="username"
-										className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-										placeholder="janesmith"
-										required
-									/>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -184,6 +197,7 @@ export default function ClientVisitForm() {
 									autoComplete="name"
 									value={name}
 									onChange={handleNameChange}
+									disabled={!isNewClient}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
 									required
 								/>
@@ -211,6 +225,7 @@ export default function ClientVisitForm() {
 									id="client-type"
 									name="client-type"
 									autoComplete="client-type-name"
+									disabled={!isNewClient}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:max-w-xs sm:text-sm sm:leading-6"
 									required
 								>
@@ -236,6 +251,7 @@ export default function ClientVisitForm() {
 									pattern="(?i)((974\d{2})|Autre)"
 									value={postalCode}
 									onChange={handlePostalChange}
+									disabled={!isNewClient}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
 									required
 								/>
@@ -268,7 +284,9 @@ export default function ClientVisitForm() {
 									step="0.5"
 									value={visitDuration}
 									onChange={handleDurationChange}
-									onKeyDown={(e) =>["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
+									onKeyDown={(e) =>
+										["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
+									}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
 									required
 								/>
