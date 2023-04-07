@@ -10,20 +10,22 @@ export default function ClientVisitForm() {
 	const [selectedDate, setSelectedDate] = useState(
 		currentDate.substring(0, 10)
 	);
-	const [visitDuration, setVisitDuration] = useState<number | "">("");
+	const [visitDuration, setVisitDuration] = useState<number | ''>('');
 	const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const inputValue = parseFloat(event.target.value);
+
 		if (inputValue > 0 && inputValue <= 24 && !isNaN(Number(inputValue))) {
 			setVisitDuration(inputValue);
-			setErrorDuration("");
+			setErrorDuration('');
 		} else {
 			setErrorDuration("Veuillez entrer une valeur comprise entre 1 et 24.");
-			setVisitDuration("");
+			setVisitDuration('');
 		}
 	};
 
-	const [postalCode, setPostalCode] = useState<string>('');
+	const [postalCode, setPostalCode] = useState<string>("");
 	const isValidPostalCode = (code: string) => {
+		//accepts 974xx reunion codes or autre
 		return /^((974\d{2})|Autre)$/i.test(code);
 	};
 
@@ -32,11 +34,30 @@ export default function ClientVisitForm() {
 		setPostalCode(value);
 
 		if (!isValidPostalCode(value)) {
-			setErrorPostal(
-				"Code postal Réunion valide ou 'Autre'."
-			);
+			setErrorPostal("Code postal Réunion valide ou 'Autre'.");
 		} else {
 			setErrorPostal("");
+		}
+	};
+
+	const [name, setName] = useState("");
+	const [errorName, setErrorName] = useState("");
+
+	const isValidName = (name: string) => {
+		// accepts letters, spaces, apostrophes and dashes
+		return /^[a-zA-ZÀ-ÿ' -]+$/.test(name);
+	};
+
+	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
+		setName(value);
+
+		if (!isValidName(value)) {
+			setErrorName(
+				"Veuillez entrer un nom valide (lettres, espaces, apostrophes et tirets uniquement)."
+			);
+		} else {
+			setErrorName("");
 		}
 	};
 
@@ -161,9 +182,20 @@ export default function ClientVisitForm() {
 									name="name"
 									id="name"
 									autoComplete="name"
+									value={name}
+									onChange={handleNameChange}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
 									required
 								/>
+								{errorName && (
+									<div className="text-xs flex items-center text-amber-500 dark:text-amber-400 mt-2">
+										<ExclamationTriangleIcon
+											className="h-5 w-5"
+											aria-hidden="true"
+										/>
+										<p className="ml-2">{errorName}</p>
+									</div>
+								)}
 							</div>
 						</div>
 
@@ -193,7 +225,7 @@ export default function ClientVisitForm() {
 								htmlFor="postal-code"
 								className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-50"
 							>
-								Code Postal
+								Code Postal (974** ou Autre)
 							</label>
 							<div className="mt-2">
 								<input
@@ -201,7 +233,7 @@ export default function ClientVisitForm() {
 									name="postal-code"
 									id="postal-code"
 									autoComplete="postal-code"
-									pattern="((974\d{2})|Autre)"
+									pattern="(?i)((974\d{2})|Autre)"
 									value={postalCode}
 									onChange={handlePostalChange}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
@@ -236,6 +268,7 @@ export default function ClientVisitForm() {
 									step="0.5"
 									value={visitDuration}
 									onChange={handleDurationChange}
+									onKeyDown={(e) =>["e", "E", "+", "-"].includes(e.key) && e.preventDefault()}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
 									required
 								/>
