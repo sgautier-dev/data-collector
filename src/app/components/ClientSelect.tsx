@@ -43,7 +43,7 @@ export default function ClientSelect({ clients, onClientSelect }: Props) {
         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
       />
       {error && (
-        <div className="text-xs flex items-center text-red-500 dark:text-red-400 mt-2">
+        <div className="text-xs flex items-center text-amber-500 dark:text-amber-400 mt-2">
           <ExclamationTriangleIcon className="h-5 w-5" aria-hidden="true" />
           <p className="ml-2">{error}</p>
         </div>

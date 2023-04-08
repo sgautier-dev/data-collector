@@ -1,9 +1,11 @@
 import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
 export const metadata = {
 	title: "Data Collector, Data Chaman",
 	description: "Appli web de saisie de données pour analyse BI, Data Chaman",
+	authors: [{ name: "Sébastien Gautier", url: "https://www.sgautier.dev/" }],
 };
 
 export default function RootLayout({

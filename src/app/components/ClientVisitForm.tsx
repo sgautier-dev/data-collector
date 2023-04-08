@@ -69,11 +69,9 @@ export default function ClientVisitForm() {
 	};
 
 	const [isNewClient, setIsNewClient] = useState(true);
-	const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 	const [type, setType] = useState("");
 
 	const handleClientSelect = (client: Client) => {
-		setSelectedClient(client);
 		setIsNewClient(false);
 		setName(client.name);
 		setType(client.type);
@@ -81,7 +79,6 @@ export default function ClientVisitForm() {
 	};
 
 	const handleNewClient = () => {
-		setSelectedClient(null);
 		setIsNewClient(true);
 		setName("");
 		setType("");
