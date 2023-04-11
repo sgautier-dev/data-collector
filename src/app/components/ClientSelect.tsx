@@ -17,7 +17,7 @@ export default function ClientSelect({ clients, onClientSelect }: Props) {
     setSearchTerm(value);
 
     if (value) {
-      const results = clients.filter((client) =>
+      const results = clients?.filter((client) =>
         client.name.toLowerCase().includes(value.toLowerCase())
       );
       setSearchResults(results);

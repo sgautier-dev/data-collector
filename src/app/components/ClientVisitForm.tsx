@@ -8,17 +8,33 @@ export default function ClientVisitForm() {
 	const [errorDuration, setErrorDuration] = useState<string>("");
 	const [errorPostal, setErrorPostal] = useState<string>("");
 	const [errorName, setErrorName] = useState("");
+	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const [clients, setClients] = useState<Client[]>([]);
+	const [isNewClient, setIsNewClient] = useState(true);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+
 	useEffect(() => {
 		const fetchClients = async () => {
-			const response = await fetch("/api/clients");
+		  try {
+			setIsLoading(true);
+			const response = await fetch('/api/clients');
 			const data = await response.json();
-			setClients(data);
+			if (data.error) {
+			  throw new Error(data.error);
+			}
+			setClients(data.clients);
+		  } catch (error: any) {
+			setErrorMessage(error.message);
+		  } finally {
+			setIsLoading(false);
+		  }
 		};
-
-		fetchClients();
-	}, []);
+		if (!isNewClient) {
+		  fetchClients();
+		}
+	  }, [isNewClient]);
+	
 
 	const currentDate = new Date().toISOString();
 	const [selectedDate, setSelectedDate] = useState(
@@ -77,7 +93,6 @@ export default function ClientVisitForm() {
 		setType(value);
 	};
 
-	const [isNewClient, setIsNewClient] = useState(true);
 	const handleClientSelect = (client: Client) => {
 		setIsNewClient(false);
 		setName(client.name);
@@ -175,7 +190,7 @@ export default function ClientVisitForm() {
 											Non
 										</label>
 									</div>
-									{!isNewClient && (
+									{(!isNewClient && !isLoading) && (
 										<div>
 											<ClientSelect
 												clients={clients}
@@ -183,6 +198,8 @@ export default function ClientVisitForm() {
 											/>
 										</div>
 									)}
+									{(!isNewClient && isLoading) && <p>En cours de chargement...</p>}
+									{(!isNewClient && errorMessage) && <p>{errorMessage}</p>}
 								</div>
 							</fieldset>
 						</div>
