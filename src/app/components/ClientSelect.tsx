@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import { Client } from '@prisma/client';
 
 type Props = {
   clients: Client[];
@@ -55,7 +56,7 @@ export default function ClientSelect({ clients, onClientSelect }: Props) {
               className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out w-full text-left py-2 px-4"
               onClick={() => handleClientClick(client)}
             >
-              {client.name} ({client.type}) - {client.postalCode}
+              {client.name} ({client.type}) - {client.postal}
             </button>
           </li>
         ))}

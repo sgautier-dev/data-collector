@@ -1,18 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import ClientSelect from "./ClientSelect";
-
-const clients: Client[] = [
-	{ id: 1, name: "Client 1", type: "Pro", postalCode: "97400" },
-	{ id: 2, name: "Client 2", type: "Perso", postalCode: "97410" },
-	{ id: 3, name: "Client 3", type: "Pro", postalCode: "97420" },
-];
+import { Client } from "@prisma/client";
 
 export default function ClientVisitForm() {
 	const [errorDuration, setErrorDuration] = useState<string>("");
 	const [errorPostal, setErrorPostal] = useState<string>("");
 	const [errorName, setErrorName] = useState("");
+
+	const [clients, setClients] = useState<Client[]>([]);
+	useEffect(() => {
+		const fetchClients = async () => {
+			const response = await fetch("/api/clients");
+			const data = await response.json();
+			setClients(data);
+		};
+
+		fetchClients();
+	}, []);
 
 	const currentDate = new Date().toISOString();
 	const [selectedDate, setSelectedDate] = useState(
@@ -76,7 +82,7 @@ export default function ClientVisitForm() {
 		setIsNewClient(false);
 		setName(client.name);
 		setType(client.type);
-		setPostalCode(client.postalCode);
+		setPostalCode(client.postal);
 	};
 	const handleNewClient = () => {
 		setIsNewClient(true);
