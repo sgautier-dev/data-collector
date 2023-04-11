@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import ClientSelect from './ClientSelect';
+import ClientSelect from "./ClientSelect";
 
 const clients: Client[] = [
 	{ id: 1, name: "Client 1", type: "Pro", postalCode: "97400" },
@@ -12,6 +12,7 @@ const clients: Client[] = [
 export default function ClientVisitForm() {
 	const [errorDuration, setErrorDuration] = useState<string>("");
 	const [errorPostal, setErrorPostal] = useState<string>("");
+	const [errorName, setErrorName] = useState("");
 
 	const currentDate = new Date().toISOString();
 	const [selectedDate, setSelectedDate] = useState(
@@ -35,7 +36,6 @@ export default function ClientVisitForm() {
 		//accepts 974xx reunion codes or autre
 		return /^((974\d{2})|Autre)$/i.test(code);
 	};
-
 	const handlePostalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
 		setPostalCode(value);
@@ -48,13 +48,10 @@ export default function ClientVisitForm() {
 	};
 
 	const [name, setName] = useState("");
-	const [errorName, setErrorName] = useState("");
-
 	const isValidName = (name: string) => {
 		// accepts letters, spaces, apostrophes and dashes
 		return /^[a-zA-ZÀ-ÿ' -]+$/.test(name);
 	};
-
 	const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
 		setName(value);
@@ -68,16 +65,19 @@ export default function ClientVisitForm() {
 		}
 	};
 
-	const [isNewClient, setIsNewClient] = useState(true);
 	const [type, setType] = useState("");
+	const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const value = event.target.value;
+		setType(value);
+	};
 
+	const [isNewClient, setIsNewClient] = useState(true);
 	const handleClientSelect = (client: Client) => {
 		setIsNewClient(false);
 		setName(client.name);
 		setType(client.type);
 		setPostalCode(client.postalCode);
 	};
-
 	const handleNewClient = () => {
 		setIsNewClient(true);
 		setName("");
@@ -85,16 +85,29 @@ export default function ClientVisitForm() {
 		setPostalCode("");
 	};
 
+	const handleReset = () => {
+		setSelectedDate(currentDate.substring(0, 10));
+		setIsNewClient(true);
+		setVisitDuration("");
+		setErrorName("");
+		setErrorDuration("");
+		setErrorPostal("");
+		setName("");
+		setType("");
+		setPostalCode("");
+	};
+
+	const handleSubmit = () => {};
+
 	return (
-		<form>
+		<form onSubmit={handleSubmit} onReset={handleReset}>
 			<div className="space-y-12 border px-10">
 				<div className="border-b border-gray-900/10 dark:border-gray-50/10 pb-12">
 					<h2 className=" mt-10 text-base font-semibold leading-7 text-gray-900 dark:text-gray-50">
 						Informations initiales
 					</h2>
 					<p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-500">
-						Auto remplissage des champs si le client est déjà existant en base
-						de données.
+						Auto remplissage des champs si le client est déjà existant.
 					</p>
 					<div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 						<div className="sm:col-span-2">
@@ -175,7 +188,7 @@ export default function ClientVisitForm() {
 						Informations Client
 					</h2>
 					<p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-500">
-						Attention de vérifier la saisie des données.
+						Merci de vérifier la saisie des données.
 					</p>
 
 					<div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -221,7 +234,8 @@ export default function ClientVisitForm() {
 								<select
 									id="client-type"
 									name="client-type"
-									autoComplete="client-type-name"
+									value={type}
+									onChange={handleTypeChange}
 									disabled={!isNewClient}
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:max-w-xs sm:text-sm sm:leading-6"
 									required
@@ -304,10 +318,10 @@ export default function ClientVisitForm() {
 
 			<div className="mt-6 flex items-center justify-end gap-x-6">
 				<button
-					type="button"
+					type="reset"
 					className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50"
 				>
-					Annuler
+					Réinitialiser
 				</button>
 				<button
 					type="submit"

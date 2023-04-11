@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface ResponsiveImageProps {
+type ResponsiveImageProps = {
 	src: string;
 	originalWidth: number;
 	originalHeight: number;
