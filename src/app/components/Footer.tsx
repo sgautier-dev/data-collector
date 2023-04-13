@@ -6,7 +6,7 @@ export default function Footer() {
 	const year = today.getFullYear().toString();
 
 	return (
-		<div className="flex justify-between items-center text-sm p-6 drop-shadow-xl z-10">
+		<div className="mt-10 flex justify-between items-center text-sm p-6 drop-shadow-xl z-10">
 			<p className="" translate="no">
 				Copyright &copy; <span>{year}</span>
 			</p>

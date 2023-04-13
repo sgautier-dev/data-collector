@@ -17,7 +17,7 @@ model Visit {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   clientId String @db.ObjectId
   date DateTime
-  new Boolean
+  isNewClient Boolean
   duration Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
