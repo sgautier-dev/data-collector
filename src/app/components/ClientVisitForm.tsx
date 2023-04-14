@@ -5,6 +5,7 @@ import ClientSelect from "./ClientSelect";
 import { Client } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { parseISO } from "date-fns";
+import { useRouter } from 'next/navigation';
 
 export default function ClientVisitForm() {
 	const [errorDuration, setErrorDuration] = useState<string>("");
@@ -20,6 +21,7 @@ export default function ClientVisitForm() {
 	const [submitError, setSubmitError] = useState<string>("");
 
 	const param = useSearchParams().toString();
+	const router = useRouter();
 
 	useEffect(() => {
 		const fetchClients = async () => {
@@ -148,6 +150,7 @@ export default function ClientVisitForm() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
+		setSubmitError("");
 		setIsSubmitting(true);
 		setSubmitMessage("Enregistrement en cours...");
 
@@ -175,14 +178,12 @@ export default function ClientVisitForm() {
 			if (response.ok) {
 				setSubmitMessage("La visite a été enregistrée avec succès !");
 				handleReset();
-				const data = await response.json();
-				console.log(data);
+				router.push('/');
 			} else {
 				const error = { status: response.status };
 				throw error;
 			}
 		} catch (error: any) {
-			console.log(error.status);
 			setSubmitMessage("");
 
 			if (error.status === 400) {
@@ -447,13 +448,13 @@ export default function ClientVisitForm() {
 					Enregistrer
 				</button>
 				{submitError && (
-					<div className="flex items-center text-amber-500 dark:text-amber-400">
+					<div className="text-sm sm:text-base flex items-center text-amber-500 dark:text-amber-400">
 						<ExclamationTriangleIcon className="h-5 w-5" aria-hidden="true" />
 						<p className="ml-2">{submitError}</p>
 					</div>
 				)}
 				{submitMessage && (
-					<p className="text-teal-500 dark:text-teal-400">{submitMessage}</p>
+					<p className="text-sm sm:text-base text-teal-500 dark:text-teal-400">{submitMessage}</p>
 				)}
 			</div>
 		</form>

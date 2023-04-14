@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/app/lib/prismadb";
 import { Client } from "@prisma/client";
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 export async function GET() {
 	try {
