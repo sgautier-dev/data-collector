@@ -5,7 +5,7 @@ import ClientSelect from "./ClientSelect";
 import { Client } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { parseISO } from "date-fns";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function ClientVisitForm() {
 	const [errorDuration, setErrorDuration] = useState<string>("");
@@ -178,16 +178,20 @@ export default function ClientVisitForm() {
 			if (response.ok) {
 				setSubmitMessage("La visite a été enregistrée avec succès !");
 				handleReset();
-				router.push('/');
+				router.push("/");
 			} else {
-				const error = { status: response.status };
+				const dataError = await response.json();
+				const error = { status: response.status, message: dataError.error };
 				throw error;
 			}
 		} catch (error: any) {
 			setSubmitMessage("");
+			console.log("error.status", error.status)
+			console.log("error.message", error.message)
 
 			if (error.status === 400) {
-				setSubmitError("Le client existe déjà !");
+				console.log('error.message', error.message)
+				setSubmitError(error.message);
 			} else {
 				setSubmitError(
 					"Une erreur est survenue lors de l'enregistrement de la visite."
@@ -356,6 +360,7 @@ export default function ClientVisitForm() {
 										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:max-w-xs sm:text-sm sm:leading-6"
 										required
 									>
+										<option value="">Sélectionnez un type</option>
 										<option>{DEFAULT_TYPE}</option>
 										<option>Perso</option>
 									</select>
@@ -454,7 +459,9 @@ export default function ClientVisitForm() {
 					</div>
 				)}
 				{submitMessage && (
-					<p className="text-sm sm:text-base text-teal-500 dark:text-teal-400">{submitMessage}</p>
+					<p className="text-sm sm:text-base text-teal-500 dark:text-teal-400">
+						{submitMessage}
+					</p>
 				)}
 			</div>
 		</form>

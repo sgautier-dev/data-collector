@@ -18,8 +18,9 @@ export async function POST(req: NextRequest) {
 
 	try {
 		let client: Client | null = null;
+
 		if (isNewClient && name) {
-			// Recherche du client existant dans la BD (cas insensible à la casse)
+			// Search for existing client in the database (case insensitive)
 			client = await prisma.client.findFirst({
 				where: { name: { equals: name, mode: "insensitive" } },
 			});

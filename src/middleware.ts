@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 const allowedOrigins =
 	process.env.NODE_ENV === "production"
-		? ["https://data-collector-seven.vercel.app/"]
-		: ["http://localhost:3000/"];
+		? ["https://data-collector-seven.vercel.app"]
+		: ["http://localhost:3000"];
 
 export function middleware(request: Request) {
 	const origin = request.headers.get("origin");

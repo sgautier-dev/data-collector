@@ -6,6 +6,9 @@ export const metadata = {
 	title: "Data Collector, Data Chaman",
 	description: "Appli web de saisie de données pour analyse BI, Data Chaman",
 	authors: [{ name: "Sébastien Gautier", url: "https://www.sgautier.dev/" }],
+	robots: {
+		index: false,
+	},
 };
 
 export default function RootLayout({

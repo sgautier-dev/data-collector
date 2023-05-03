@@ -18,7 +18,7 @@ export default function ResponsiveImage({
 	priority = false,
 }: ResponsiveImageProps) {
 	const aspectRatio = originalHeight / originalWidth;
-	const height = width * aspectRatio;
+	const height = Math.round(width * aspectRatio);
 
 	return (
 		<Image
