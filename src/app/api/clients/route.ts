@@ -1,8 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/app/lib/prismadb";
 import { Client } from "@prisma/client";
-import { limiter } from "@/app/lib/limiter";
 
+/*
+Clients route: retrieves a list of clients from a database using Prisma ORM and returns the list as a JSON response.
+*/
 export async function GET() {
 	try {
 		const clients: Client[] = await prisma.client.findMany();

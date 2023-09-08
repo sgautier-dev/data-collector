@@ -4,6 +4,11 @@ import { Visit, Client } from "@prisma/client";
 
 interface VisitAndClient extends Visit, Client {}
 
+/*
+Visits route: receives a JSON payload containing information about a visit and a client. 
+The function uses Prisma to interact with the database and perform CRUD operations. 
+It creates a new visit record in the database and handles cases where the client already exists or is a new client.
+*/
 export async function POST(req: NextRequest) {
 	const {
 		clientId,
